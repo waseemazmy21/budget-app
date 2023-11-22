@@ -1,4 +1,4 @@
-import { BudgetContext } from './BudgetContext';
+import { BudgetContext, UNCATEGORIZED_BUDGET_ID } from './BudgetContext';
 import PropTypes from 'prop-types';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { v4 as uuidv4 } from 'uuid';
@@ -54,6 +54,17 @@ const BudgetContextProvider = ({ children }) => {
   function deleteBudget(id) {
     setBudgets((prevBudgets) =>
       prevBudgets.filter((budget) => budget.id !== id)
+    );
+
+    // move this budget expenses to uncategorized if there
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((expense) => {
+        if (expense.budgetId !== id) {
+          return expense;
+        }
+
+        return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID };
+      })
     );
   }
 

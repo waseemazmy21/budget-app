@@ -8,10 +8,11 @@ const BudgetCard = ({
   max,
   gray,
   onAddExpenseClick,
+  onViewExpenseClick,
   hideButtons,
 }) => {
   const classNames = [];
-  console.log(name, max);
+
   if (amount > max) {
     classNames.push('bg-danger', 'bg-opacity-10');
   } else if (gray) {
@@ -51,7 +52,9 @@ const BudgetCard = ({
             >
               Add Expense
             </Button>
-            <Button variant='outline-secondary'>View Expenses</Button>
+            <Button variant='outline-secondary' onClick={onViewExpenseClick}>
+              View Expenses
+            </Button>
           </Stack>
         )}
       </Card.Body>
@@ -72,6 +75,7 @@ BudgetCard.propTypes = {
   max: PropTypes.number,
   gray: PropTypes.bool,
   onAddExpenseClick: PropTypes.func,
+  onViewExpenseClick: PropTypes.func,
   hideButtons: PropTypes.bool,
 };
 

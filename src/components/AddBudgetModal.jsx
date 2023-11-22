@@ -60,7 +60,7 @@ const AddBudgetModal = ({ showModal, handleClose }) => {
 
 AddBudgetModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default AddBudgetModal;

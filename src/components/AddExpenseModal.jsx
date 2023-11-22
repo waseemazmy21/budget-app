@@ -73,7 +73,7 @@ const AddExpenseModal = ({ showModal, handleClose, defaultBudgetId }) => {
 AddExpenseModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  defaultBudgetId: PropTypes.string.isRequired,
+  defaultBudgetId: PropTypes.string,
 };
 
 export default AddExpenseModal;
