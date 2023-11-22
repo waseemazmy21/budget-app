@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Stack, Button } from 'react-bootstrap';
+import BudgetCard from './components/BudgetCard';
+import AddBudgetModal from './components/AddBudgetModal';
+import AddExpenseModal from './components/AddExpenseModal';
+import { useState } from 'react';
+import { useBudget, UNCATEGORIZED_BUDGET_ID } from './contexts/BudgetContext';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [showAddBudgetModal, setShowAddBudgetModal] = useState(false);
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState(
+    UNCATEGORIZED_BUDGET_ID
+  );
+
+  const { budgets, calcBudgetAmount } = useBudget();
+
+  function openAddExpenseModal(budgetId) {
+    setShowAddExpenseModal(true);
+    setAddExpenseModalBudgetId(budgetId);
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <Container className='my-4'>
+        <Stack direction='horizontal' gap={3}>
+          <h1 className='me-auto'>Budgets</h1>
+          <Button variant='primary' onClick={() => setShowAddBudgetModal(true)}>
+            Add Budget
+          </Button>
+          <Button
+            variant='outline-primary'
+            onClick={() => openAddExpenseModal(UNCATEGORIZED_BUDGET_ID)}
+          >
+            Add Expense
+          </Button>
+        </Stack>
+        <div
+          className='mt-5'
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gap: '1rem',
+            alignItems: 'start',
+          }}
+        >
+          {budgets.map((budget) => (
+            <BudgetCard
+              key={budget.id}
+              name={budget.name}
+              amount={calcBudgetAmount(budget.id)}
+              max={budget.max}
+              onAddExpenseClick={() => openAddExpenseModal(budget.id)}
+            />
+          ))}
+        </div>
+      </Container>
+      <AddBudgetModal
+        showModal={showAddBudgetModal}
+        handleClose={() => setShowAddBudgetModal(false)}
+      />
 
-export default App
+      <AddExpenseModal
+        showModal={showAddExpenseModal}
+        handleClose={() => setShowAddExpenseModal(false)}
+        defaultBudgetId={addExpenseModalBudgetId}
+      />
+    </>
+  );
+};
+
+export default App;
