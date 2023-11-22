@@ -16,7 +16,6 @@ const AddExpenseModal = ({ showModal, handleClose, defaultBudgetId }) => {
       amount: parseFloat(amountRef.current.value),
       budgetId: budgetIdRef.current.value,
     });
-    console.log(budgetIdRef.current.value);
     handleClose();
   }
 

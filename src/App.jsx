@@ -1,5 +1,7 @@
 import { Container, Stack, Button } from 'react-bootstrap';
 import BudgetCard from './components/BudgetCard';
+import UncategorizedBudgetCard from './components/UncategorizedBudgetCard';
+import TotalBudgetCard from './components/TotalBudgetCard';
 import AddBudgetModal from './components/AddBudgetModal';
 import AddExpenseModal from './components/AddExpenseModal';
 import { useState } from 'react';
@@ -52,6 +54,12 @@ const App = () => {
               onAddExpenseClick={() => openAddExpenseModal(budget.id)}
             />
           ))}
+          <UncategorizedBudgetCard
+            onAddExpenseClick={() =>
+              openAddExpenseModal(UNCATEGORIZED_BUDGET_ID)
+            }
+          />
+          <TotalBudgetCard />
         </div>
       </Container>
       <AddBudgetModal
